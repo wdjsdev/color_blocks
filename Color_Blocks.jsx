@@ -533,7 +533,7 @@ function container()
 	//and place color blocks on dedicated layer.
 	function makeBlocks(colors)
 	{	
-		var blockLayer = layers.add();
+		blockLayer = layers.add();
 		blockLayer.name = "Color Blocks";
 		for(var b=0;b<aB.length;b++)
 		{
@@ -560,6 +560,60 @@ function container()
 		blockLayer.locked = true;
 		return true;
 	}
+
+	function getTopArtboard()
+	{
+		var result = aB[0],
+			abLength = aB.length,
+			tlRect = result.artboardRect,
+			rect;
+		for(var x=1;x<abLength;x++)
+		{
+			rect = aB[x].artboardRect;
+			if(rect[1] > tlRect[1])
+			{
+				result = aB[x];
+			}
+		}
+		return result;
+	}
+
+	function makeColorStrip()
+	{
+		var file = new File("~/Desktop/automation/color_blocks/color_strip.ai");
+		var stripDoc = app.open(file);
+		var stripLayers = stripDoc.layers;
+		var stripAbRect = stripDoc.artboards[0].artboardRect;
+		var dim = [stripAbRect[2]-stripAbRect[0],stripAbRect[1]-stripAbRect[3]];
+		var spacing = 50;
+
+		stripLayers[0].hasSelectedArtwork = true;
+		app.copy();
+		stripDoc.close(SaveOptions.DONOTSAVECHANGES);
+		docRef.activate();
+
+		//create a new artboard for the color strip
+		var topAb = getTopArtboard().artboardRect;
+		var newRect = [stripAbRect[0],topAb[1] + dim[1] + spacing, stripAbRect[2],topAb[1] + spacing];
+		var stripAb = aB.add(newRect);
+		stripAb.name = "Control Strip";
+		blockLayer.locked = false;
+		app.executeMenuCommand("pasteInPlace");
+
+		//recolor the swatches
+
+		var inkLen = docInks.length;
+		var stripSwatches = blockLayer.groupItems["Swatches"];
+		var curSwatch;
+		for(var x=0;x<inkLen;x++)
+		{
+			curSwatch = stripSwatches.pageItems["Swatch " + x];
+			curSwatch.fillColor = swatches[docInks[x]].color;
+		}
+
+		blockLayer.locked = true;
+	}
+	
 
 	////////End//////////
 	///Logic Container///
@@ -660,6 +714,7 @@ function container()
 	var aB = docRef.artboards;
 	var errorList = [];
 	var overridePassword = "FullDye101";
+	var blockLayer;
 
 	var valid;
 
@@ -743,6 +798,11 @@ function container()
 		sendErrors(errorList);
 		valid = false
 		return;
+	}
+
+	if(valid)
+	{
+		makeColorStrip();
 	}
 
 
