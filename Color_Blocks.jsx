@@ -808,10 +808,10 @@ function container()
 		return;
 	}
 
-	if(valid)
-	{
-		makeColorStrip();
-	}
+	// if(valid)
+	// {
+	// 	makeColorStrip();
+	// }
 
 
 
