@@ -694,7 +694,8 @@ function container()
 			"Turquoise B",
 			"Tropical Green B",
 			"Amethyst Orchid B",
-			"Autumn Glory B"
+			"Autumn Glory B",
+			"Aqua B"
 		],
 		productionColors: ['Thru-cut', 'CUT LINE', 'cut line', 'Info B'],
 		navy: false,
