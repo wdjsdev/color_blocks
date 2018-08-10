@@ -61,6 +61,14 @@ Progress:
 function container()
 {
 
+	var valid = true;
+
+	eval("#include \"/Volumes/Customization/Library/Scripts/Script Resources/Data/Utilities_Container.jsxbin\"");
+	if(!valid)
+	{
+		return;
+	}
+
 	/*****************************************************************************/
 
 	///////Begin/////////
