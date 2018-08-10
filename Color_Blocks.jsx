@@ -777,7 +777,7 @@ function container()
 			"Cut Line",
 			"MLBPA Red",
 			"MLBPA Navy"
-		]
+		],
 		productionColors: ['Thru-cut', 'CUT LINE', 'cut line', 'Info B'],
 		navy: false,
 		navy2: false,
