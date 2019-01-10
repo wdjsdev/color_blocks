@@ -621,6 +621,30 @@ function container()
 
 		blockLayer.locked = true;
 	}
+
+
+
+	function setThruCutOpacity()
+	{
+		try
+		{
+			var doc = app.activeDocument;
+			var thruCutSwatch = makeNewSpotColor("Thru-cut", "CMYK", {c:0,m:0,y:0,k:0});
+			doc.selection = null;
+			doc.defaultStrokeColor = thruCutSwatch.color;
+			app.executeMenuCommand("Find Stroke Color menu item");
+			setZeroOpacity(doc.selection);
+
+			function setZeroOpacity(selection)
+			{
+				for(var x=0,len=selection.length;x<len;x++)
+				{
+					selection[x].opacity = 0;
+				}
+			}
+		}
+		catch(e){};
+	}
 	
 
 	////////End//////////
@@ -828,6 +852,11 @@ function container()
 		sendErrors(errorList);
 		valid = false
 		return;
+	}
+
+	if(valid)
+	{
+		setThruCutOpacity();
 	}
 
 	// if(valid)
