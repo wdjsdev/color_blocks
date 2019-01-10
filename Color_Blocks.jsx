@@ -806,17 +806,17 @@ function container()
 		//if the file has not been processed, just alert and exit. Give the user a chance to investigate/fix.
 		//if the file has been processed before, proceed.
 		
-		if(beenProcessed("check"))
-		{
-			var valid = overrideColors();
-		}
+		// if(beenProcessed("check"))
+		// {
+		// 	var valid = overrideColors();
+		// }
 		
-		else
-		{
-			sendErrors(errorList);
-			valid = false;
-			return;
-		}	
+		// else
+		// {
+		// 	sendErrors(errorList);
+		// 	valid = false;
+		// 	return;
+		// }	
 	}
 
 	if(valid)
