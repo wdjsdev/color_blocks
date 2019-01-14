@@ -369,7 +369,8 @@ function container()
 		if(undesirable.length > 0)
 		{
 			wrongColors = undesirable;
-			localValid = false;
+			errorList.push("Caution:\nYou have the following non-boombah colors in your document:\n" + wrongColors.join("\n"));
+			// localValid = false;
 		}
 		if(approvedColors.length == 0)
 		{
@@ -660,87 +661,6 @@ function container()
 	var library = 
 	{
 		defaultSwatches : ['White','Black','White, Black','Orange, Yellow','Fading Sky','Super Soft Black Vignette','Foliage','Pompadour'],
-		// approvedColors :
-		// [
-		// 	"Sangria B",
-		// 	"Hot Coral B",
-		// 	"Autumn Glory B",
-		// 	"Amethyst Orchid B",
-		// 	"Violet B",
-		// 	"Kiwi B",
-		// 	"Tropical Green B",
-		// 	"Turquoise B",
-		// 	"Aqua B",
-		// 	"Electric Blue B",
-		// 	"Cobalt B",
-		// 	"Teak Brown B",
-		// 	"Desert B",
-		// 	"Sand B",
-		// 	"Coyote B",
-		// 	"Mulch B",
-		// 	"Tree Bark B",
-		// 	"Oak Brown B",
-		// 	"Storm B",
-		// 	"Slate B",
-		// 	"Foliage B",
-		// 	"Gun Metal B",
-		// 	"Olive Drab B",
-		// 	"Forest Green B",
-		// 	"Black B",
-		// 	"White B",
-		// 	"Gray B",
-		// 	"Gray 2 B",
-		// 	"Steel B",
-		// 	"Navy B",
-		// 	"Navy 2 B",
-		// 	"Royal Blue B",
-		// 	"Columbia B",
-		// 	"Teal B",
-		// 	"Dark Green B",
-		// 	"Kelly Green B",
-		// 	"Lime Green B",
-		// 	"Optic Yellow B",
-		// 	"Yellow B",
-		// 	"Athletic Gold B",
-		// 	"Vegas Gold B",
-		// 	"Orange B",
-		// 	"Texas Orange B",
-		// 	"Red B",
-		// 	"Cardinal B",
-		// 	"Maroon B",
-		// 	"Hot Pink B",
-		// 	"Pink B",
-		// 	"Soft Pink B",
-		// 	"Purple B",
-		// 	"Flesh B",
-		// 	"Dark Flesh B",
-		// 	"Brown B",
-		// 	"Cyan B",
-		// 	"FLO ORANGE B",
-		// 	"FLO YELLOW B",
-		// 	"FLO PINK B",
-		// 	"Twitch B",
-		// 	"MINT B",
-		// 	"Magenta B",
-		// 	"Magenta 2 B",
-		// 	"NEON CORAL B",
-		// 	"FLAME B",
-		// 	"BRIGHT PURPLE B",
-		// 	"Dark Charcoal B",
-		// 	"Info B",
-		// 	"Jock Tag B",
-		// 	"Thru-cut",
-		// 	"CUT LINE",
-		// 	"Cutline",
-		// 	"Jrock Charcoal",
-		// 	"Feeney Purple B",
-		// 	"Feeney Orange B",
-		// 	"Feeney Orange Body B",
-		// 	"Tailgater Gold B",
-		// 	"Cut Line",
-		// 	"MLBPA Red",
-		// 	"MLBPA Navy"
-		// ],
 		approvedColors: BOOMBAH_APPROVED_COLORS,
 		productionColors: ['Thru-cut', 'CUT LINE', 'cut line', 'Info B'],
 		navy: false,
@@ -847,12 +767,7 @@ function container()
 	{
 		valid = makeBlocks(docInks);
 	}
-	else
-	{
-		sendErrors(errorList);
-		valid = false
-		return;
-	}
+	
 
 	if(valid)
 	{
@@ -863,6 +778,14 @@ function container()
 	// {
 	// 	makeColorStrip();
 	// }
+
+	if(errorList.length)
+	{
+		sendErrors(errorList);
+	}
+
+
+	return valid;
 
 
 
