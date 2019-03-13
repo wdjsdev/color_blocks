@@ -145,10 +145,7 @@ function container()
 				docRef.swatchGroups['Brights'].remove();
 			}
 			catch(e)
-			{
-				errorList.push("System: " + e);
-				errorList.push("Failed while removing swatchGroups.");
-			}
+			{}
 		}
 
 		return true;
