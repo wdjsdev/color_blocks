@@ -75,15 +75,6 @@ function container()
 	///Logic Container///
 	/////////////////////
 
-	//sendErrors Function Description
-	//upon script failure, populate array of errors and display to user
-	//exit script
-	function sendErrors(errorList)
-	{
-		alert("The following errors occured:\n" + errorList.join('\n'));
-		return;
-	}
-
 	//removeBlockLayer Function Description
 	//check for the existence of a block layer and remove it if necessary.
 	//this ensures that on each execution of the script, there is a blank slate.
@@ -117,57 +108,9 @@ function container()
 	//remove all Illustrator default swatches from swatch panel.
 	function exterminateDefault()
 	{
-		for(var ed=swatches.length-1;ed>-1;ed--)
-		{
-			if(swatches[ed].name.indexOf("C=")>-1 || swatches[ed].name.indexOf("CMYK")>-1)
-			{
-				removeSwatch(swatches[ed]);
-			}
-			else
-			{
-				for(var ld=0;ld<library.defaultSwatches.length;ld++)
-				{
-					if(swatches[ed].name == library.defaultSwatches[ld])
-					{
-						removeSwatch(swatches[ed]);
-						break;
-					}
-				}
-			}
-		}
-
-		//remove default swatch folders
-		if(docRef.swatchGroups.length > 1)
-		{
-			try
-			{
-				docRef.swatchGroups['Grays'].remove();
-				docRef.swatchGroups['Brights'].remove();
-			}
-			catch(e)
-			{}
-		}
-
+		eval("#include \"" + deleteDefaultColorScriptPath + "\"");
 		return true;
-
-
-		//local, private "remove swatch or send error" function
-		function removeSwatch(swatch)
-		{
-			try
-			{
-				swatch.remove();
-			}
-			catch(e)
-			{
-				errorSwatches++;
-				errorList.push("System: " + e);
-				errorList.push("Couldn't remove one or more default swatches");
-			}
-		}
 	}
-
-
 
 	//fixFloSwatch Function Description
 	//Ensure capitalized names of flo swatches
@@ -657,9 +600,8 @@ function container()
 
 	var library = 
 	{
-		defaultSwatches : ['White','Black','White, Black','Orange, Yellow','Fading Sky','Super Soft Black Vignette','Foliage','Pompadour'],
 		approvedColors: BOOMBAH_APPROVED_COLORS,
-		productionColors: ['Thru-cut', 'CUT LINE', 'cut line', 'Info B'],
+		productionColors: BOOMBAH_PRODUCTION_COLORS,
 		navy: false,
 		navy2: false,
 		gray: false,
@@ -686,6 +628,7 @@ function container()
 	var errorList = [];
 	var overridePassword = "FullDye101";
 	var blockLayer;
+	var deleteDefaultColorScriptPath = "/Volumes/Customization/Library/Scripts/setup_scripts/Delete_Default_Swatches.jsx";
 
 	var valid;
 
