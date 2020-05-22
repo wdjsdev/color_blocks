@@ -65,47 +65,50 @@ function container()
 	var scriptName = "color_blocks";
 
 	function getUtilities()
-		{
-			var result;
-			var networkPath,utilPath;
-			if($.os.match("Windows"))
-			{
-				networkPath = "//AD4/Customization/";
-			}
-			else
-			{
-				networkPath = "/Volumes/Customization/";
-			}
-
-
-			utilPath = decodeURI(networkPath + "Library/Scripts/Script Resources/Data/");
-
-			
-			if(Folder(utilPath).exists)
-			{
-				result = utilPath;
-			}
-
-			return result;
-
-		}
-
-		var utilitiesPath = getUtilities();
-		if(utilitiesPath)
-		{
-			eval("#include \"" + utilitiesPath + "Utilities_Container.jsxbin" + "\"");
-			eval("#include \"" + utilitiesPath + "Batch_Framework.jsxbin" + "\"");
-		}
-		else
-		{
-			alert("Failed to find the utilities..");
-			return false;	
-		}
-	
-	if(!valid)
 	{
-		return;
+		var result = [];
+		var utilPath = "/Volumes/Customization/Library/Scripts/Script_Resources/Data/";
+		var ext = ".jsxbin"
+
+		//check for dev utilities preference file
+		var devUtilitiesPreferenceFile = File("~/Documents/script_preferences/dev_utilities.txt");
+
+		if(devUtilitiesPreferenceFile.exists)
+		{
+			devUtilitiesPreferenceFile.open("r");
+			var prefContents = devUtilitiesPreferenceFile.read();
+			devUtilitiesPreferenceFile.close();
+			if(prefContents === "true")
+			{
+				utilPath = "~/Desktop/automation/utilities/";
+				ext = ".js";
+			}
+		}
+
+		if($.os.match("Windows"))
+		{
+			utilPath = utilPath.replace("/Volumes/","//AD4/");
+		}
+
+		result.push(utilPath + "Utilities_Container" + ext);
+		result.push(utilPath + "Batch_Framework" + ext);
+
+		if(!result.length)
+		{
+			valid = false;
+			alert("Failed to find the utilities.");
+		}
+		return result;
+
 	}
+
+	var utilities = getUtilities();
+	for(var u=0,len=utilities.length;u<len;u++)
+	{
+		eval("#include \"" + utilities[u] + "\"");	
+	}
+
+	if(!valid)return;
 
 	/*****************************************************************************/
 
