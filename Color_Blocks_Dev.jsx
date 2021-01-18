@@ -150,8 +150,17 @@ function container()
 	//remove all Illustrator default swatches from swatch panel.
 	function exterminateDefault()
 	{
-		eval("#include \"" + deleteDefaultColorScriptPath + "\"");
-		return true;
+		try
+		{
+			eval("#include \"" + deleteDefaultColorScriptPath + "\"");
+			return true;	
+		}
+		catch(e)
+		{
+			errorList.push("Failed while removing default colors.");
+			return false;
+		}
+		
 	}
 
 	//fixFloSwatch Function Description
